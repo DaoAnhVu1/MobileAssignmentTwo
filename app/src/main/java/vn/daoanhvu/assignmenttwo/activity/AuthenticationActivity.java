@@ -49,7 +49,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
+        mGoogleSignInClient.signOut();
         googleSignInButton.setOnClickListener(view -> signInWithGoogle());
     }
 

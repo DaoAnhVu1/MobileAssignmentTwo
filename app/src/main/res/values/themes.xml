@@ -6,4 +6,9 @@
     </style>
 
     <style name="Theme.AssignmentTwo" parent="Base.Theme.AssignmentTwo" />
+
+    <style name="Rounded">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
 </resources>

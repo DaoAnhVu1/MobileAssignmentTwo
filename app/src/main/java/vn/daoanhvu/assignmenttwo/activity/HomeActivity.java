@@ -1,14 +1,17 @@
 package vn.daoanhvu.assignmenttwo.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.squareup.picasso.Picasso;
+
+import java.util.Objects;
 
 import vn.daoanhvu.assignmenttwo.R;
 
@@ -19,11 +22,14 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
 
-        MaterialButton logOutButton = findViewById(R.id.logout);
-
-        TextView textView = findViewById(R.id.home);
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        textView.setText(currentUser.getDisplayName());
+        ShapeableImageView profileImage=  findViewById(R.id.profileImage);
+        if (currentUser != null) {
+            String photoUrl = Objects.requireNonNull(currentUser.getPhotoUrl()).toString();
+            Picasso.get().load(photoUrl).into(profileImage);
+        }
+
+        MaterialButton logOutButton = findViewById(R.id.logout);
 
         logOutButton.setOnClickListener(view -> {
             FirebaseAuth.getInstance().signOut();
