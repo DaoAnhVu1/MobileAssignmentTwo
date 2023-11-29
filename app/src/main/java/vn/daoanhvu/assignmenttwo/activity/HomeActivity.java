@@ -31,6 +31,12 @@ public class HomeActivity extends AppCompatActivity {
 
         MaterialButton logOutButton = findViewById(R.id.logout);
 
+        MaterialButton map = findViewById(R.id.mapButton);
+        map.setOnClickListener(view -> {
+            Intent intent = new Intent(HomeActivity.this, MapsActivity.class);
+            startActivity(intent);
+        });
+
         logOutButton.setOnClickListener(view -> {
             FirebaseAuth.getInstance().signOut();
             Intent intent = new Intent(HomeActivity.this, AuthenticationActivity.class);

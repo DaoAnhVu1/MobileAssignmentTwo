@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">AssignmentTwo</string>
     <string name="default_web_client_id">937050345708-j84ffbou2gf2c6uertivvpbmdpsmbus9.apps.googleusercontent.com</string>
+    <string name="title_activity_maps">MapsActivity</string>
 </resources>
