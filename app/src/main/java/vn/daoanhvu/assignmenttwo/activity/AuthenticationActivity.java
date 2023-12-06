@@ -2,6 +2,7 @@ package vn.daoanhvu.assignmenttwo.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +17,11 @@ import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import vn.daoanhvu.assignmenttwo.R;
 
@@ -81,6 +87,31 @@ public class AuthenticationActivity extends AppCompatActivity {
         mAuth.signInWithCredential(GoogleAuthProvider.getCredential(acct.getIdToken(), null))
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
+                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+                        String userId = mAuth.getCurrentUser().getUid();
+                        String userName = mAuth.getCurrentUser().getDisplayName();
+                        db.collection("user").document(userId).get().addOnCompleteListener(documentTask -> {
+                            if (documentTask.isSuccessful()) {
+                                DocumentSnapshot document = documentTask.getResult();
+                                if (!document.exists()) {
+                                    Map<String, Object> user = new HashMap<>();
+                                    user.put("userId", userId);
+                                    user.put("username", userName);
+                                    db.collection("user")  // Replace with your actual collection name
+                                            .document(userId)
+                                            .set(user)
+                                            .addOnSuccessListener(aVoid -> {
+                                                Log.d("VUI", "DocumentSnapshot added with ID: " + userId);
+                                            })
+                                            .addOnFailureListener(e -> {
+                                                Log.w("VUI", "Error adding document", e);
+                                            });
+                                }
+                            } else {
+                                // Handle the error
+                                Log.w("BUON", "Error getting document", documentTask.getException());
+                            }
+                        });
                         Intent intent = new Intent(AuthenticationActivity.this, HomeActivity.class);
                         startActivity(intent);
                         finish();
