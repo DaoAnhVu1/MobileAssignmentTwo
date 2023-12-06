@@ -90,6 +90,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                         FirebaseFirestore db = FirebaseFirestore.getInstance();
                         String userId = mAuth.getCurrentUser().getUid();
                         String userName = mAuth.getCurrentUser().getDisplayName();
+                        String email = mAuth.getCurrentUser().getEmail();
                         db.collection("user").document(userId).get().addOnCompleteListener(documentTask -> {
                             if (documentTask.isSuccessful()) {
                                 DocumentSnapshot document = documentTask.getResult();
@@ -97,6 +98,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                                     Map<String, Object> user = new HashMap<>();
                                     user.put("userId", userId);
                                     user.put("username", userName);
+                                    user.put("email", email);
                                     db.collection("user")  // Replace with your actual collection name
                                             .document(userId)
                                             .set(user)
