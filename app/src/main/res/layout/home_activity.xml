@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:paddingHorizontal="20dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -24,42 +25,109 @@
             android:id="@+id/profileImage"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            app:shapeAppearance="@style/Rounded"
-            android:scaleType="centerCrop"
-            android:src="@drawable/white_google_icon"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            />
+            android:scaleType="centerCrop"
+            android:src="@drawable/white_google_icon"
+            app:shapeAppearance="@style/Rounded" />
     </RelativeLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="80dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:id="@+id/findSite"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginTop="10dp"
+                android:paddingHorizontal="20dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="20dp">
 
-    <TextView
-        android:id="@+id/home"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="Home"
-        android:textSize="32sp"
-        android:textStyle="bold" />
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/community"
+                    app:shapeAppearance="@style/RoundedImageViewStyle" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/home"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:backgroundTint="@color/black"
-        android:text="Logout"
-        app:cornerRadius="10dp" />
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/mapButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/logout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:backgroundTint="@color/black"
-        android:text="Map"
-        app:cornerRadius="10dp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/black_background"
+                    android:gravity="center"
+                    android:text="Find cleaning site"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/createSite"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_below="@id/findSite"
+                android:layout_marginTop="10dp"
+                android:paddingHorizontal="20dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="20dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/clean"
+                    app:shapeAppearance="@style/RoundedImageViewStyle" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/black_background"
+                    android:gravity="center"
+                    android:text="Create your site"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/aboutUs"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_below="@id/createSite"
+                android:layout_marginTop="10dp"
+                android:paddingHorizontal="20dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="20dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/about"
+                    app:shapeAppearance="@style/RoundedImageViewStyle" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/black_background"
+                    android:gravity="center"
+                    android:text="About us"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+    </ScrollView>
 </RelativeLayout>
