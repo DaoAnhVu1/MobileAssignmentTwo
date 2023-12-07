@@ -1,15 +1,24 @@
 package vn.daoanhvu.assignmenttwo.activity;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
 import android.os.Bundle;
 
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.model.RectangularBounds;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+
+import java.util.Arrays;
 
 import vn.daoanhvu.assignmenttwo.R;
 import vn.daoanhvu.assignmenttwo.databinding.MapActivityBinding;
@@ -31,17 +40,41 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R
                         .id.map);
         mapFragment.getMapAsync(this);
+
+        if(!Places.isInitialized()) {
+            Places.initialize(getApplicationContext(), "AIzaSyBJOKhGBRS9jIjnfUVecVzDCBUmMDnL7KI");
+        }
+        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
+                getSupportFragmentManager().findFragmentById(R.id.autoComplete);
+
+        autocompleteFragment.setLocationBias(RectangularBounds.newInstance(
+                new LatLng(20.5, 105.0), // Southwest corner of the bounding box
+                new LatLng(21.5, 106.5)  // Northeast corner of the bounding box
+        ));
+
+        autocompleteFragment.setPlaceFields(
+                Arrays.asList(Place.Field.ID, Place.Field.NAME));
+
+        autocompleteFragment.setCountries(Arrays.asList("VN"));
+
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(@NonNull Place place) {
+                System.out.println("Selected");
+                LatLng selectedPlaceLatLng = place.getLatLng();
+                mMap.addMarker(new MarkerOptions().position(selectedPlaceLatLng).title(place.getName()));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(selectedPlaceLatLng, 16));
+            }
+
+            @Override
+            public void onError(@NonNull Status status) {
+                // Handle errors
+                // You can log the error or display an error message
+            }
+        });
+
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
