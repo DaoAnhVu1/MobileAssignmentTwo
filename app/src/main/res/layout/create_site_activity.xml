@@ -159,11 +159,28 @@
                 android:background="?android:attr/editTextBackground"/>
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/imageLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Images:"
+            android:layout_below="@id/addressSection"
+            android:layout_marginTop="8dp"/>
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imageView"
+            android:layout_marginTop="8dp"
+            android:layout_below="@id/imageLabel"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+       android:src="@drawable/image"
+            />
         <com.google.android.material.button.MaterialButton
             android:id="@+id/submitButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/addressSection"
+            android:layout_below="@id/imageView"
             android:layout_marginTop="8dp"
             android:backgroundTint="@color/black"
             android:text="Create"
