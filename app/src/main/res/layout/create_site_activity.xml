@@ -1,0 +1,172 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background">
+
+    <ImageView
+        android:id="@+id/backButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/back" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:paddingHorizontal="50dp">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Create your site"
+            android:textColor="@color/black"
+            android:textSize="32dp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/nameLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title"
+            android:layout_marginTop="32dp"
+            android:text="Name of your site:" />
+
+        <EditText
+            android:id="@+id/nameEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/nameLabel"
+            android:drawableEnd="@drawable/baseline_info_24"
+            android:hint="Enter the name of your site"
+            android:inputType="text"
+            android:paddingBottom="16dp"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/participantLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/nameEdit"
+            android:layout_marginTop="8dp"
+            android:text="Maximum number of participants:" />
+
+        <EditText
+            android:id="@+id/participantEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/participantLabel"
+            android:drawableEnd="@drawable/users_group"
+            android:hint="Enter the max number of participants"
+            android:inputType="number"
+            android:paddingBottom="16dp"
+            android:textSize="16dp" />
+
+        <LinearLayout
+            android:id="@+id/dateTimeSection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/participantEdit"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <!-- Date Section -->
+            <LinearLayout
+                android:id="@+id/dateSection"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="8dp"
+                android:clickable="true"
+                android:layout_weight="50"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/dateLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Date:" />
+
+                <TextView
+                    android:id="@+id/dateText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:drawableEnd="@drawable/calendar"
+                    android:drawablePadding="8dp"
+                    android:hint="DD/MM/YY"
+                    android:paddingBottom="16dp"
+                    android:textSize="16dp"
+                    android:background="?android:attr/editTextBackground"/>
+            </LinearLayout>
+
+            <!-- Time Section -->
+            <LinearLayout
+                android:id="@+id/timeSection"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:layout_marginStart="8dp"
+                android:layout_weight="50"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/timeLabel"
+                    android:text="Time:"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/timeText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:drawableEnd="@drawable/clock"
+                    android:drawablePadding="8dp"
+                    android:hint="HH:MM"
+                    android:paddingBottom="16dp"
+                    android:textSize="16dp"
+                    android:background="?android:attr/editTextBackground"/>
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/addressSection"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:clickable="true"
+            android:layout_below="@id/dateTimeSection"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/addressLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Address: " />
+
+            <TextView
+                android:id="@+id/addressEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/location"
+                android:hint="Click and select address"
+                android:background="?android:attr/editTextBackground"/>
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/submitButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/addressSection"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/black"
+            android:text="Create"
+            app:cornerRadius="10dp" />
+    </RelativeLayout>
+</RelativeLayout>

@@ -97,11 +97,43 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
             </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/manage"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_below="@id/createSite"
+                android:layout_marginTop="10dp"
+                android:paddingHorizontal="20dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="20dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/manage"
+                    app:shapeAppearance="@style/RoundedImageViewStyle" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/black_background"
+                    android:gravity="center"
+                    android:text="Manage your site"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/aboutUs"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:layout_below="@id/createSite"
+                android:layout_below="@id/manage"
                 android:layout_marginTop="10dp"
                 android:paddingHorizontal="20dp"
                 android:layout_gravity="center"

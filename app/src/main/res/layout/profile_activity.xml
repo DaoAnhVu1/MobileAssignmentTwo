@@ -24,5 +24,15 @@
             app:shapeAppearanceOverlay="@style/Rounded"
             android:layout_centerHorizontal="true"
             />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/profileImage"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/black"
+            android:text="Logout"
+            app:cornerRadius="10dp" />
     </RelativeLayout>
 </RelativeLayout>

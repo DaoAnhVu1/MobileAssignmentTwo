@@ -31,13 +31,14 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBJOKhGBRS9jIjnfUVecVzDCBUmMDnL7KI" />
-
-        <activity
-            android:name=".activity.MapsActivity"
-            android:exported="false"
-            android:label="@string/title_activity_maps" />
         <activity
             android:name=".activity.ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.CreateSiteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.LocationPickerActivity"
             android:exported="false" />
         <activity
             android:name=".activity.HomeActivity"

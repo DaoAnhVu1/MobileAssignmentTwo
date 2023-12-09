@@ -99,7 +99,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                                     user.put("userId", userId);
                                     user.put("username", userName);
                                     user.put("email", email);
-                                    db.collection("user")  // Replace with your actual collection name
+                                    db.collection("user")
                                             .document(userId)
                                             .set(user)
                                             .addOnSuccessListener(aVoid -> {
