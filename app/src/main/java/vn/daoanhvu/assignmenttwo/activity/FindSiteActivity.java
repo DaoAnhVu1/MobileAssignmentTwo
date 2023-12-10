@@ -2,6 +2,7 @@ package vn.daoanhvu.assignmenttwo.activity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,6 +51,11 @@ public class FindSiteActivity extends AppCompatActivity {
             onBackPressed();
         });
         MaterialButton filterButton = findViewById(R.id.filter_button);
+        MaterialButton mapButton  = findViewById(R.id.map_button);
+        mapButton.setOnClickListener(v -> {
+            Intent intent = new Intent(FindSiteActivity.this, SitesOnMap.class);
+            startActivity(intent);
+        });
         filterButton.setOnClickListener(v -> showFilterDialog());
         siteListView = findViewById(R.id.siteList);
         siteList = new ArrayList<>();
