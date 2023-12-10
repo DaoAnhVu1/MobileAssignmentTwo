@@ -15,11 +15,16 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import vn.daoanhvu.assignmenttwo.R;
 
@@ -30,7 +35,6 @@ public class CreateSiteActivity extends AppCompatActivity {
     LinearLayout addressSection;
 
     EditText nameEdit;
-    EditText maxParticipantEdit;
     TextView dateEditText;
     TextView timeEditText;
     TextView addressText;
@@ -39,6 +43,7 @@ public class CreateSiteActivity extends AppCompatActivity {
     ImageView imageView;
     private Uri selectedImageUri;
     private String uploadedImageUrl;
+    private String storedLatlng;
 
     private static final int LOCATION_PICKER_REQUEST_CODE = 1;
     private static final int IMAGE_PICKER_REQUEST_CODE = 2;
@@ -49,7 +54,6 @@ public class CreateSiteActivity extends AppCompatActivity {
         setContentView(R.layout.create_site_activity);
 
         nameEdit = findViewById(R.id.nameEdit);
-        maxParticipantEdit = findViewById(R.id.participantEdit);
         dateEdit = findViewById(R.id.dateSection);
         timeEdit = findViewById(R.id.timeSection);
         dateEditText = findViewById(R.id.dateText);
@@ -75,12 +79,53 @@ public class CreateSiteActivity extends AppCompatActivity {
 
         imageView.setOnClickListener(v -> openImagePicker());
 
+        submitButton.setOnClickListener(v -> createSite());
+
     }
 
     private void openImagePicker() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
         startActivityForResult(intent, IMAGE_PICKER_REQUEST_CODE);
+    }
+
+    private void createSite() {
+        String name = nameEdit.getText().toString().trim();
+        String date = dateEditText.getText().toString().trim();
+        String time = timeEditText.getText().toString().trim();
+        String address = addressText.getText().toString().trim();
+
+        if (name.isEmpty()  || date.isEmpty() || time.isEmpty() || address.isEmpty()) {
+            Toast.makeText(this, "Please fill in all required fields", Toast.LENGTH_SHORT).show();
+            return; // Exit the method if any field is empty
+        }
+
+        if (storedLatlng == null || storedLatlng.isEmpty()) {
+            Toast.makeText(this, "Location not selected", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Map<String, Object> siteData = new HashMap<>();
+        siteData.put("name", name);
+        siteData.put("date", date);
+        siteData.put("time", time);
+        siteData.put("ownerId", FirebaseAuth.getInstance().getCurrentUser().getUid());
+        siteData.put("address", address);
+        siteData.put("imageUrl", uploadedImageUrl);
+        siteData.put("latlng", storedLatlng);
+
+        // Add the siteData to Firebase (replace "sites" with your desired collection name)
+        FirebaseFirestore.getInstance().collection("sites")
+                .add(siteData)
+                .addOnSuccessListener(documentReference -> {
+                    // Document was successfully added
+                    Toast.makeText(this, "Site created successfully", Toast.LENGTH_SHORT).show();
+                    finish();
+                })
+                .addOnFailureListener(e -> {
+                    // Handle errors
+                    Toast.makeText(this, "Error creating site", Toast.LENGTH_SHORT).show();
+                });
     }
 
     private void showDatePicker() {
@@ -127,11 +172,10 @@ public class CreateSiteActivity extends AppCompatActivity {
             // Handle the result from LocationPickerActivity
             if (data != null) {
                 String selectedAddress = data.getStringExtra("selectedAddress");
-                String selectedLatLng = data.getStringExtra("selectedLatLng");
+                String selectedLat = data.getStringExtra("selectedLat");
+                String selectedLong = data.getStringExtra("selectedLng");
+                storedLatlng = selectedLat + "," + selectedLong;
                 addressText.setText(selectedAddress);
-                // Display a toast with the selected address and LatLng
-                String toastMessage = "Selected Address: " + selectedAddress + "\nSelected LatLng: " + selectedLatLng;
-                Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show();
             }
         } else if (requestCode == IMAGE_PICKER_REQUEST_CODE && resultCode == RESULT_OK && data != null && data.getData() != null) {
             // Handle the result from image picker
@@ -155,7 +199,10 @@ public class CreateSiteActivity extends AppCompatActivity {
             imageRef.putFile(selectedImageUri)
                     .addOnSuccessListener(taskSnapshot -> {
                         imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                            imageView.setImageURI(uri);
+                            // Use Picasso to load the image into the ImageView
+                            Picasso.get().load(uri.toString()).into(imageView);
+
+                            // Save the downloaded image URL
                             uploadedImageUrl = uri.toString();
                         });
                     })

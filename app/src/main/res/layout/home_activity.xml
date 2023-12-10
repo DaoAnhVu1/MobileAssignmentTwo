@@ -99,7 +99,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/manage"
+                android:id="@+id/siteCenter"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:layout_below="@id/createSite"
@@ -123,7 +123,7 @@
                     android:layout_alignParentBottom="true"
                     android:background="@drawable/black_background"
                     android:gravity="center"
-                    android:text="Manage your site"
+                    android:text="Site center"
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -133,7 +133,7 @@
                 android:id="@+id/aboutUs"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:layout_below="@id/manage"
+                android:layout_below="@id/siteCenter"
                 android:layout_marginTop="10dp"
                 android:paddingHorizontal="20dp"
                 android:layout_gravity="center"

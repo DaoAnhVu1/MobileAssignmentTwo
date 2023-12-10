@@ -106,7 +106,7 @@ public class LocationPickerActivity extends FragmentActivity implements OnMapRea
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.setOnMapClickListener(latLng -> {
             // Toast the LatLng when the map is clicked
-           getAddressFromLatLng(latLng);
+            getAddressFromLatLng(latLng);
         });
     }
 
@@ -123,7 +123,8 @@ public class LocationPickerActivity extends FragmentActivity implements OnMapRea
                 // Create an intent to send back the result
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("selectedAddress", addressName);
-                resultIntent.putExtra("selectedLatLng", latLng);
+                resultIntent.putExtra("selectedLat",  String.valueOf(latLng.latitude));
+                resultIntent.putExtra("selectedLng",  String.valueOf(latLng.longitude));
                 setResult(RESULT_OK, resultIntent);
 
                 // Finish the activity

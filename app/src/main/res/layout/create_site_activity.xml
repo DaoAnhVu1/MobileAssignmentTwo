@@ -49,30 +49,12 @@
             android:paddingBottom="16dp"
             android:textSize="16dp" />
 
-        <TextView
-            android:id="@+id/participantLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/nameEdit"
-            android:layout_marginTop="8dp"
-            android:text="Maximum number of participants:" />
-
-        <EditText
-            android:id="@+id/participantEdit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/participantLabel"
-            android:drawableEnd="@drawable/users_group"
-            android:hint="Enter the max number of participants"
-            android:inputType="number"
-            android:paddingBottom="16dp"
-            android:textSize="16dp" />
 
         <LinearLayout
             android:id="@+id/dateTimeSection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/participantEdit"
+            android:layout_below="@id/nameEdit"
             android:layout_marginTop="8dp"
             android:orientation="horizontal">
 

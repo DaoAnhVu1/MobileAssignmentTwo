@@ -24,7 +24,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.home_activity);
         RelativeLayout findSite = findViewById(R.id.findSite);
         RelativeLayout createSite = findViewById(R.id.createSite);
-        RelativeLayout manageSite = findViewById(R.id.manage);
+        RelativeLayout siteCenter = findViewById(R.id.siteCenter);
         RelativeLayout aboutUs = findViewById(R.id.aboutUs);
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         ShapeableImageView profileImage=  findViewById(R.id.profileImage);
@@ -33,12 +33,22 @@ public class HomeActivity extends AppCompatActivity {
             Picasso.get().load(photoUrl).into(profileImage);
         }
 
+        findSite.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, FindSiteActivity.class);
+            startActivity(intent);
+        });
+
         createSite.setOnClickListener(v -> {
             Intent intent = new Intent(HomeActivity.this, CreateSiteActivity.class);
             startActivity(intent);
         });
 
 
+
+        siteCenter.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, SiteCenterActivity.class);
+            startActivity(intent);
+        });
 
         profileImage.setOnClickListener(view -> {
             Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
