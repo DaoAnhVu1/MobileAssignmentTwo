@@ -6,13 +6,10 @@ import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
-
-import java.util.Objects;
 
 import vn.daoanhvu.assignmenttwo.R;
 
@@ -29,8 +26,15 @@ public class HomeActivity extends AppCompatActivity {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         ShapeableImageView profileImage=  findViewById(R.id.profileImage);
         if (currentUser != null) {
-            String photoUrl = Objects.requireNonNull(currentUser.getPhotoUrl()).toString();
-            Picasso.get().load(photoUrl).into(profileImage);
+            String photoUrl = currentUser.getPhotoUrl() != null ? currentUser.getPhotoUrl().toString() : null;
+
+            if (photoUrl != null) {
+                // Load the user's profile image using Picasso
+                Picasso.get().load(photoUrl).into(profileImage);
+            } else {
+                // Set a default image from your drawable resources
+                profileImage.setImageResource(R.drawable.profile_image);
+            }
         }
 
         findSite.setOnClickListener(v -> {

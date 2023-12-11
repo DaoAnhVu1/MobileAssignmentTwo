@@ -12,8 +12,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
-import java.util.Objects;
-
 import vn.daoanhvu.assignmenttwo.R;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -24,15 +22,21 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.profile_activity);
         ImageView backButton = findViewById(R.id.backButton);
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        ShapeableImageView profileImage=  findViewById(R.id.profileImage);
+        ShapeableImageView profileImage = findViewById(R.id.profileImage);
         if (currentUser != null) {
-            String photoUrl = Objects.requireNonNull(currentUser.getPhotoUrl()).toString();
-            Picasso.get().load(photoUrl).into(profileImage);
-        }
+            String photoUrl = currentUser.getPhotoUrl() != null ? currentUser.getPhotoUrl().toString() : null;
 
+            if (photoUrl != null) {
+                // Load the user's profile image using Picasso
+                Picasso.get().load(photoUrl).into(profileImage);
+            } else {
+                // Set a default image from your drawable resources
+                profileImage.setImageResource(R.drawable.profile_image);
+            }
+        }
         MaterialButton logoutButton = findViewById(R.id.logout);
 
-        logoutButton.setOnClickListener(v-> {
+        logoutButton.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
             Intent intent = new Intent(ProfileActivity.this, AuthenticationActivity.class);
             startActivity(intent);

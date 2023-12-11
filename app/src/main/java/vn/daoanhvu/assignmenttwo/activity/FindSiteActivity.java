@@ -28,6 +28,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -51,7 +53,7 @@ public class FindSiteActivity extends AppCompatActivity {
             onBackPressed();
         });
         MaterialButton filterButton = findViewById(R.id.filter_button);
-        MaterialButton mapButton  = findViewById(R.id.map_button);
+        MaterialButton mapButton = findViewById(R.id.map_button);
         mapButton.setOnClickListener(v -> {
             Intent intent = new Intent(FindSiteActivity.this, SitesOnMap.class);
             startActivity(intent);
@@ -83,10 +85,15 @@ public class FindSiteActivity extends AppCompatActivity {
                                 Site site = document.toObject(Site.class);
                                 siteList.add(site);
                             }
-                            // Notify the adapter that the data set has changed
+
+                            Collections.sort(siteList, new Comparator<Site>() {
+                                @Override
+                                public int compare(Site site1, Site site2) {
+                                    return compareDates(site1.getDate(), site2.getDate());
+                                }
+                            });
+
                             siteAdapter.notifyDataSetChanged();
-                        } else {
-                            // Handle the case where fetching data fails
                         }
                     }
                 });
@@ -166,23 +173,37 @@ public class FindSiteActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Site site = document.toObject(Site.class);
 
-                                // Check for a partial match on the "name" field
                                 boolean isNameMatch = site.getName().toLowerCase().contains(keyword.toLowerCase());
 
-                                // Check for the date filter only if a date is provided
                                 boolean isDateMatch = date.isEmpty() || isDateAfter(site.getDate(), date);
 
-                                // Add the site to the list only if both name and date match
                                 if (isNameMatch && isDateMatch) {
                                     siteList.add(site);
                                 }
                             }
+                            Collections.sort(siteList, new Comparator<Site>() {
+                                @Override
+                                public int compare(Site site1, Site site2) {
+                                    return compareDates(site1.getDate(), site2.getDate());
+                                }
+                            });
 
-                            // Notify the adapter that the data set has changed
                             siteAdapter.notifyDataSetChanged();
                         }
                     }
                 });
+    }
+
+    private int compareDates(String date1, String date2) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
+        try {
+            Date date1Obj = sdf.parse(date1);
+            Date date2Obj = sdf.parse(date2);
+            return date1Obj.compareTo(date2Obj);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     private boolean isDateAfter(String siteDate, String inputDate) {

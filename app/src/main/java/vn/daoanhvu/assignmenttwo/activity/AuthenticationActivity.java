@@ -2,7 +2,10 @@ package vn.daoanhvu.assignmenttwo.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,8 +40,12 @@ public class AuthenticationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.authentication_activity);
 
-        mAuth = FirebaseAuth.getInstance();
+        TextView textViewAlready = findViewById(R.id.already);
+        textViewAlready.setOnClickListener(v -> {
+            startActivity(new Intent(AuthenticationActivity.this, RegisterActivity.class));
+        });
 
+        mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         if (currentUser != null) {
@@ -57,12 +64,66 @@ public class AuthenticationActivity extends AppCompatActivity {
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         mGoogleSignInClient.signOut();
         googleSignInButton.setOnClickListener(view -> signInWithGoogle());
+
+        MaterialButton signInButton = findViewById(R.id.signIn);
+        signInButton.setOnClickListener(view -> signInWithEmailPassword());
     }
 
     private void signInWithGoogle() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
+
+    private void signInWithEmailPassword() {
+        EditText editTextEmail = findViewById(R.id.editTextEmail);
+        EditText editTextPassword = findViewById(R.id.editTextPassword);
+
+        String email = editTextEmail.getText().toString().trim();
+        String password = editTextPassword.getText().toString().trim();
+
+        if (TextUtils.isEmpty(email)) {
+            Toast.makeText(this, "Please enter your email", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (TextUtils.isEmpty(password)) {
+            Toast.makeText(this, "Please enter your password", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+                        String userId = mAuth.getCurrentUser().getUid();
+                        db.collection("user").document(userId).get().addOnCompleteListener(documentTask -> {
+                            if (documentTask.isSuccessful()) {
+                                DocumentSnapshot document = documentTask.getResult();
+                                if (!document.exists()) {
+                                    Map<String, Object> user = new HashMap<>();
+                                    user.put("userId", userId);
+                                    user.put("email", email);
+                                    db.collection("user")
+                                            .document(userId)
+                                            .set(user)
+                                            .addOnSuccessListener(aVoid -> {
+                                                Log.d("VUI", "DocumentSnapshot added with ID: " + userId);
+                                            })
+                                            .addOnFailureListener(e -> {
+                                                Log.w("VUI", "Error adding document", e);
+                                            });
+                                } else if (document.exists()) {
+                                    checkUserRoleAndRedirect(document);
+                                }
+                            }
+                        });
+                    } else {
+                        Toast.makeText(AuthenticationActivity.this, "Authentication failed.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -79,6 +140,21 @@ public class AuthenticationActivity extends AppCompatActivity {
                 System.out.println(e.getMessage());
             }
 
+        }
+    }
+
+    private void checkUserRoleAndRedirect(DocumentSnapshot document) {
+        Object roleObj = document.get("role");
+
+        // Check for null before comparing
+        if (roleObj != null && roleObj.equals("admin")) {
+            Intent intent = new Intent(AuthenticationActivity.this, AdminActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
+            Intent intent = new Intent(AuthenticationActivity.this, HomeActivity.class);
+            startActivity(intent);
+            finish();
         }
     }
 
@@ -108,15 +184,14 @@ public class AuthenticationActivity extends AppCompatActivity {
                                             .addOnFailureListener(e -> {
                                                 Log.w("VUI", "Error adding document", e);
                                             });
+                                } else if (document.exists()) {
+                                    checkUserRoleAndRedirect(document);
                                 }
                             } else {
                                 // Handle the error
                                 Log.w("BUON", "Error getting document", documentTask.getException());
                             }
                         });
-                        Intent intent = new Intent(AuthenticationActivity.this, HomeActivity.class);
-                        startActivity(intent);
-                        finish();
                     }
                 });
     }

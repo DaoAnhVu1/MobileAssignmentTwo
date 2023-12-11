@@ -5,7 +5,10 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.widget.EditText;
@@ -20,6 +23,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -30,6 +34,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import java.io.IOException;
+import java.util.List;
 
 import vn.daoanhvu.assignmenttwo.R;
 import vn.daoanhvu.assignmenttwo.databinding.SitesOnMapActivityBinding;
@@ -60,17 +67,38 @@ public class SitesOnMap extends FragmentActivity implements OnMapReadyCallback {
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        searchLocationEditText = findViewById(R.id.locationEditText);
+        locationSubmitButton = findViewById(R.id.locationSubmit);
+
+        locationSubmitButton.setOnClickListener(v -> {
+            String locationName = searchLocationEditText.getText().toString();
+
+            if (!locationName.isEmpty()) {
+                Geocoder geocoder = new Geocoder(this);
+
+                try {
+                    List<Address> addresses = geocoder.getFromLocationName(locationName, 1);
+
+                    if (addresses != null && !addresses.isEmpty()) {
+                        Address address = addresses.get(0);
+                        LatLng location = new LatLng(address.getLatitude(), address.getLongitude());
+
+                        mMap.clear(); // Clear existing markers
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
+                    } else {
+                        Toast.makeText(this, "Location not found", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Toast.makeText(this, "Error searching for location", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(this, "Please enter a location", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -90,6 +118,7 @@ public class SitesOnMap extends FragmentActivity implements OnMapReadyCallback {
 
         mMap.getUiSettings().setZoomControlsEnabled(true);
     }
+
 
     private void fetchAndAddSiteMarkers() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -111,9 +140,11 @@ public class SitesOnMap extends FragmentActivity implements OnMapReadyCallback {
 
                                 BitmapDescriptor customMarker = BitmapDescriptorFactory.fromResource(R.drawable.leafimage);
 
-                                mMap.addMarker(new MarkerOptions().position(siteLocation)
+                                Marker marker = mMap.addMarker(new MarkerOptions().position(siteLocation)
                                         .title(site.getName())
                                         .icon(customMarker));
+
+                                marker.setTag(site);
                             }
                         } else {
                             // Handle the case where fetching data fails
@@ -122,7 +153,6 @@ public class SitesOnMap extends FragmentActivity implements OnMapReadyCallback {
                     }
                 });
     }
-
     private void moveCameraToCurrentLocation() {
         // Get the last known location
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -138,7 +168,11 @@ public class SitesOnMap extends FragmentActivity implements OnMapReadyCallback {
                     if (location != null) {
                         // Move the camera to the current location with a zoom level of 16
                         LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                        mMap.addMarker(new MarkerOptions().position(currentLocation).title("Current Location"));
+                        BitmapDescriptor customMarker = BitmapDescriptorFactory.fromResource(R.drawable.profile_image);
+
+                        mMap.addMarker(new MarkerOptions().position(currentLocation)
+                                .title("Current Location")
+                                .icon(customMarker));
                         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 13));
 
                     } else {
