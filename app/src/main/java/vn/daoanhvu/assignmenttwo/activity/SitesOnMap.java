@@ -84,8 +84,7 @@ public class SitesOnMap extends FragmentActivity implements OnMapReadyCallback {
                         Address address = addresses.get(0);
                         LatLng location = new LatLng(address.getLatitude(), address.getLongitude());
 
-                        mMap.clear(); // Clear existing markers
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 13));
                     } else {
                         Toast.makeText(this, "Location not found", Toast.LENGTH_SHORT).show();
                     }
@@ -115,6 +114,20 @@ public class SitesOnMap extends FragmentActivity implements OnMapReadyCallback {
             moveCameraToCurrentLocation();
             fetchAndAddSiteMarkers();
         }
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(@NonNull Marker clickedMarker) {
+                Site clickedSite = (Site) clickedMarker.getTag();
+                if (clickedSite != null) {
+                    Intent intent = new Intent(SitesOnMap.this, SiteDetailsActivity.class);
+                    intent.putExtra("site", clickedSite);
+                    startActivity(intent);
+                    return true;
+                }
+                return false;
+            }
+        });
 
         mMap.getUiSettings().setZoomControlsEnabled(true);
     }

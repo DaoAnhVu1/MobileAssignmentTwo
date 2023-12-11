@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -64,6 +65,21 @@ public class FindSiteActivity extends AppCompatActivity {
         siteAdapter = new SiteAdapter(siteList);
         siteListView.setAdapter(siteAdapter);
         fetchDataFromFirestore();
+        siteListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Retrieve the clicked site
+                Site clickedSite = siteList.get(position);
+
+                // Create an intent to navigate to SiteDetailsActivity
+                Intent intent = new Intent(FindSiteActivity.this, SiteDetailsActivity.class);
+                intent.putExtra("site", clickedSite);
+
+                // Start the intent
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void fetchDataFromFirestore() {
