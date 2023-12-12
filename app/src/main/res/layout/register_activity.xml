@@ -20,10 +20,26 @@
             android:textSize="32sp"
             />
         <EditText
-            android:id="@+id/editTextEmail"
+            android:id="@+id/editTextUsername"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/welcomeText"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"
+            android:padding="10dp"
+            android:autofillHints=""
+            android:textSize="18sp"
+            android:hint="Enter your username"
+            android:background="@drawable/white_border_radius"
+            android:inputType="text"
+            android:minHeight="48dp"
+            android:textColor="#324B4D"
+            android:textColorHint="#8D6E63" />
+        <EditText
+            android:id="@+id/editTextEmail"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editTextUsername"
             android:layout_centerHorizontal="true"
             android:layout_margin="10dp"
             android:padding="10dp"

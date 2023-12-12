@@ -17,6 +17,12 @@
         android:theme="@style/Theme.AssignmentTwo"
         tools:targetApi="31">
         <activity
+            android:name=".activity.CreatedSiteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.JoinedSiteActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.SiteDetailsActivity"
             android:exported="false" />
         <activity

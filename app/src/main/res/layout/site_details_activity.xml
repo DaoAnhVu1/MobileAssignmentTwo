@@ -2,7 +2,6 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/background"
-    android:paddingHorizontal="15dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <ImageView
         android:id="@+id/backButton"
@@ -12,70 +11,78 @@
         android:layout_marginTop="16dp"
         android:src="@drawable/back" />
 
-    <TextView
-        android:id="@+id/title"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Site Details"
-        android:textAlignment="center"
-        android:layout_marginTop="50dp"
-        android:textSize="32dp"
-        android:textColor="@color/black"
-        android:textStyle="bold"/>
+        android:paddingHorizontal="15dp"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Site Details"
+            android:textAlignment="center"
+            android:layout_marginTop="50dp"
+            android:paddingHorizontal="15dp"
+            android:textSize="32dp"
+            android:textColor="@color/black"
+            android:textStyle="bold"/>
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/image"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:src="@drawable/clean"
-        android:layout_below="@id/title"
-        android:layout_marginTop="8dp"
-        app:shapeAppearanceOverlay="@style/RoundedImageViewStyle"
-        android:scaleType="centerCrop"/>
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:src="@drawable/clean"
+            android:layout_below="@id/title"
+            android:layout_marginTop="8dp"
+            app:shapeAppearanceOverlay="@style/RoundedImageViewStyle"
+            android:scaleType="centerCrop"/>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/joinButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/image"
-        app:cornerRadius="10dp"
-        android:backgroundTint="@color/black"
-        android:text="Join this site"
-        android:textSize="20dp"
-        android:layout_marginTop="8dp"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/joinButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/image"
+            app:cornerRadius="10dp"
 
-    <TextView
-        android:id="@+id/siteName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Name: "
-        android:textSize="20dp"
-        android:layout_marginTop="8dp"
-        android:layout_below="@id/joinButton"/>
+            android:backgroundTint="@color/black"
+            android:text="Join this site"
+            android:textSize="20dp"
+            android:layout_marginTop="8dp"/>
 
-    <TextView
-        android:id="@+id/siteDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Date: "
-        android:textSize="20dp"
-        android:layout_marginTop="8dp"
-        android:layout_below="@id/siteName"/>
-    <TextView
-        android:id="@+id/siteTime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Time: "
-        android:textSize="20dp"
-        android:layout_marginTop="8dp"
-        android:layout_below="@id/siteDate"/>
+        <TextView
+            android:id="@+id/siteName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Name: "
+            android:textSize="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_below="@id/joinButton"/>
 
-    <TextView
-        android:id="@+id/siteAddress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Address: "
-        android:textSize="20dp"
-        android:layout_marginTop="8dp"
-        android:layout_below="@id/siteTime"/>
+        <TextView
+            android:id="@+id/siteDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Date: "
+            android:textSize="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_below="@id/siteName"/>
+        <TextView
+            android:id="@+id/siteTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Time: "
+            android:textSize="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_below="@id/siteDate"/>
+
+        <TextView
+            android:id="@+id/siteAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Address: "
+            android:textSize="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_below="@id/siteTime"/>
+    </RelativeLayout>
+
 </RelativeLayout>

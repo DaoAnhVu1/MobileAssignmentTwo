@@ -1,11 +1,18 @@
 package vn.daoanhvu.assignmenttwo.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.button.MaterialButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
 import vn.daoanhvu.assignmenttwo.R;
@@ -47,6 +54,38 @@ public class SiteDetailsActivity extends AppCompatActivity {
 
             TextView siteAddressTextView = findViewById(R.id.siteAddress);
             siteAddressTextView.setText("Address: " + site.getAddress());
+
+            MaterialButton joinButton = findViewById(R.id.joinButton);
+            joinButton.setOnClickListener(v -> {
+                joinSite(site.getId(), FirebaseAuth.getInstance().getCurrentUser().getUid());
+            });
         }
+    }
+
+    private void joinSite(String siteId, String userId) {
+        DocumentReference userRef = FirebaseFirestore.getInstance().collection("user").document(userId);
+
+        userRef.update("joinedSites", FieldValue.arrayUnion(siteId))
+                .addOnSuccessListener(aVoid -> {
+                    Log.d("joinSite", "User joined site successfully");
+                    // Handle success
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("joinSite", "Error joining site for user: " + e.getMessage());
+                    // Handle failure
+                });
+
+        DocumentReference siteRef = FirebaseFirestore.getInstance().collection("sites").document(siteId);
+        siteRef.update("participants", FieldValue.arrayUnion(userId))
+                .addOnSuccessListener(aVoid -> {
+                    Log.d("joinSite", "User added as participant to site successfully");
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("joinSite", "Error adding user as participant to site: " + e.getMessage());
+                    // Handle failure
+                });
+
+        Intent intent = new Intent(SiteDetailsActivity.this, SiteCenterActivity.class);
+        startActivity(intent);
     }
 }

@@ -62,14 +62,15 @@
             app:iconGravity="textStart"
             app:iconPadding="0dp" />
     </RelativeLayout>
-    <ListView
-        android:id="@+id/siteList"
+    <GridView
+        android:id="@+id/siteGrid"
         android:layout_below="@id/header"
         android:layout_marginTop="20dp"
         android:paddingHorizontal="20dp"
         android:layout_width="match_parent"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="40dp"
         android:layout_marginBottom="20dp"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:numColumns="2"
+        android:horizontalSpacing="10dp"
+        android:verticalSpacing="10dp"/>
 </RelativeLayout>

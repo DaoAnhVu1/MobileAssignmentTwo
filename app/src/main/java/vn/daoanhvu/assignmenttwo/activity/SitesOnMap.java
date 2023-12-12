@@ -149,15 +149,20 @@ public class SitesOnMap extends FragmentActivity implements OnMapReadyCallback {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Site site = document.toObject(Site.class);
-                                LatLng siteLocation = new LatLng(site.getLatitude(), site.getLongitude());
+                                site.setId(document.getId());
+                                List<String> participants = site.getParticipants();
+                                if (participants == null || !participants.contains(currentUser.getUid())) {
+                                    LatLng siteLocation = new LatLng(site.getLatitude(), site.getLongitude());
 
-                                BitmapDescriptor customMarker = BitmapDescriptorFactory.fromResource(R.drawable.leafimage);
+                                    BitmapDescriptor customMarker = BitmapDescriptorFactory.fromResource(R.drawable.leafimage);
 
-                                Marker marker = mMap.addMarker(new MarkerOptions().position(siteLocation)
-                                        .title(site.getName())
-                                        .icon(customMarker));
+                                    Marker marker = mMap.addMarker(new MarkerOptions().position(siteLocation)
+                                            .title(site.getName())
+                                            .icon(customMarker));
 
-                                marker.setTag(site);
+                                    marker.setTag(site);
+                                }
+
                             }
                         } else {
                             // Handle the case where fetching data fails

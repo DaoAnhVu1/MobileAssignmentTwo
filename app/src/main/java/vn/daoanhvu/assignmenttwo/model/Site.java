@@ -1,6 +1,7 @@
 package vn.daoanhvu.assignmenttwo.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Site implements Serializable {
     private String id;
@@ -11,10 +12,11 @@ public class Site implements Serializable {
     private String name;
     private String time;
     private String ownerId;
+    private List<String> participants;
     public Site() {
     }
 
-    public Site(String id, String address, String date, String imageUrl, String latlng, String name, String time, String ownerId) {
+    public Site(String id, String address, String date, String imageUrl, String latlng, String name, String time, String ownerId, List<String> participants) {
         this.id = id;
         this.address = address;
         this.date = date;
@@ -23,6 +25,7 @@ public class Site implements Serializable {
         this.name = name;
         this.time = time;
         this.ownerId = ownerId;
+        this.participants = participants;
     }
 
     public String getId() {
@@ -87,6 +90,13 @@ public class Site implements Serializable {
 
     public void setOwnerId(String ownerId) {
         this.ownerId = ownerId;
+    }
+    public List<String> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(List<String> participants) {
+        this.participants = participants;
     }
 
     public Double getLatitude() {

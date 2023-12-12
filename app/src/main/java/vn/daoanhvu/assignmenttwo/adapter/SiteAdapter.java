@@ -45,16 +45,10 @@ public class SiteAdapter extends BaseAdapter {
 
         Site site = siteList.get(position);
 
-        ((TextView) convertView.findViewById(R.id.name)).setText("Name: " + site.getName());
-        ((TextView) convertView.findViewById(R.id.date)).setText("Date: " + site.getDate());
-        ((TextView) convertView.findViewById(R.id.time)).setText("Time: " + site.getTime());
+        ((TextView) convertView.findViewById(R.id.name)).setText(site.getName());
         ShapeableImageView imageView = convertView.findViewById(R.id.image);
         Picasso.get().load(site.getImageUrl()).into(imageView);
         String address = site.getAddress();
-        if (address.length() > 20) {
-            address = address.substring(0, 20) + "...";
-        }
-        ((TextView) convertView.findViewById(R.id.address)).setText("Address: " + address);
 
         return convertView;
     }

@@ -1,15 +1,14 @@
 package vn.daoanhvu.assignmenttwo.activity;
 
 import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -40,7 +39,7 @@ import vn.daoanhvu.assignmenttwo.adapter.SiteAdapter;
 import vn.daoanhvu.assignmenttwo.model.Site;
 
 public class FindSiteActivity extends AppCompatActivity {
-    private ListView siteListView;
+    private GridView siteListView;
     private List<Site> siteList;
     private SiteAdapter siteAdapter;
 
@@ -60,7 +59,7 @@ public class FindSiteActivity extends AppCompatActivity {
             startActivity(intent);
         });
         filterButton.setOnClickListener(v -> showFilterDialog());
-        siteListView = findViewById(R.id.siteList);
+        siteListView = findViewById(R.id.siteGrid);
         siteList = new ArrayList<>();
         siteAdapter = new SiteAdapter(siteList);
         siteListView.setAdapter(siteAdapter);
@@ -99,7 +98,11 @@ public class FindSiteActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Site site = document.toObject(Site.class);
-                                siteList.add(site);
+                                site.setId(document.getId());
+                                List<String> participants = site.getParticipants();
+                                if (participants == null || !participants.contains(currentUser.getUid())) {
+                                    siteList.add(site);
+                                }
                             }
 
                             Collections.sort(siteList, new Comparator<Site>() {
@@ -188,13 +191,12 @@ public class FindSiteActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Site site = document.toObject(Site.class);
-
+                                site.setId(document.getId());
                                 boolean isNameMatch = site.getName().toLowerCase().contains(keyword.toLowerCase());
-
+                                List<String> participants = site.getParticipants();
                                 boolean isDateMatch = date.isEmpty() || isDateAfter(site.getDate(), date);
-
-                                if (isNameMatch && isDateMatch) {
-                                    siteList.add(site);
+                                if (isNameMatch && isDateMatch && (participants == null || !participants.contains(currentUser.getUid()))) {
+                                        siteList.add(site);
                                 }
                             }
                             Collections.sort(siteList, new Comparator<Site>() {
