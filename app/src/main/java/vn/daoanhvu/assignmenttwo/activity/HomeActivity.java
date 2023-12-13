@@ -20,7 +20,6 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
         RelativeLayout findSite = findViewById(R.id.findSite);
-        RelativeLayout createSite = findViewById(R.id.createSite);
         RelativeLayout siteCenter = findViewById(R.id.siteCenter);
         RelativeLayout aboutUs = findViewById(R.id.aboutUs);
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -41,13 +40,6 @@ public class HomeActivity extends AppCompatActivity {
             Intent intent = new Intent(HomeActivity.this, FindSiteActivity.class);
             startActivity(intent);
         });
-
-        createSite.setOnClickListener(v -> {
-            Intent intent = new Intent(HomeActivity.this, CreateSiteActivity.class);
-            startActivity(intent);
-        });
-
-
 
         siteCenter.setOnClickListener(v -> {
             Intent intent = new Intent(HomeActivity.this, SiteCenterActivity.class);

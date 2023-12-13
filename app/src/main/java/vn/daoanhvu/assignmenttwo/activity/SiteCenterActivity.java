@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.material.imageview.ShapeableImageView;
@@ -19,6 +21,12 @@ public class SiteCenterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.site_center_activity);
         ShapeableImageView profileImage = findViewById(R.id.profileImage);
+        RelativeLayout yourSite = findViewById(R.id.yourSite);
+        RelativeLayout joinedSite = findViewById(R.id.joinedSite);
+        yourSite.setOnClickListener(v -> {
+            Intent intent = new Intent(SiteCenterActivity.this, CreatedSiteActivity.class);
+            startActivity(intent);
+        });
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             String photoUrl = currentUser.getPhotoUrl() != null ? currentUser.getPhotoUrl().toString() : null;
