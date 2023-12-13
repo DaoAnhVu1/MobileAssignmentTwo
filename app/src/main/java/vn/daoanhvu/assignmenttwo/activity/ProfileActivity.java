@@ -3,6 +3,7 @@ package vn.daoanhvu.assignmenttwo.activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ImageView;
 
@@ -38,6 +39,10 @@ public class ProfileActivity extends AppCompatActivity {
 
         logoutButton.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
+            SharedPreferences preferences = getSharedPreferences("user_preferences", MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.clear(); // Clear all data
+            editor.apply();
             Intent intent = new Intent(ProfileActivity.this, AuthenticationActivity.class);
             startActivity(intent);
             finish();

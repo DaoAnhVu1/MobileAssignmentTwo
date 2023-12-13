@@ -5,18 +5,32 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import vn.daoanhvu.assignmenttwo.R;
+import vn.daoanhvu.assignmenttwo.adapter.UserListAdapter;
 import vn.daoanhvu.assignmenttwo.model.Site;
+import vn.daoanhvu.assignmenttwo.model.User;
 
 public class SiteDetailsForOwnerActivity extends AppCompatActivity {
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private ListView listView;
+    private List<User> userList;
+    private UserListAdapter userListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,11 +66,42 @@ public class SiteDetailsForOwnerActivity extends AppCompatActivity {
             siteAddressTextView.setText("Address: " + site.getAddress());
 
             MaterialButton updateButton = findViewById(R.id.updateButton);
-            updateButton.setOnClickListener(v -> showSummaryDialog());
+            updateButton.setOnClickListener(v -> showSummaryDialog(site.getId()));
+            TextView participantsText = findViewById(R.id.participants);
+            List<String> participants = site.getParticipants();
+            if (participants == null || participants.size() == 0) {
+                participantsText.setText("There is no participant");
+            } else {
+                ListView listView = findViewById(R.id.listview);
+                userList = new ArrayList<>();
+                userListAdapter = new UserListAdapter(userList);
+                listView.setAdapter(userListAdapter);
+            }
+
+
+            if (participants != null && !participants.isEmpty()) {
+                for (String id : participants) {
+                    db.collection("user").document(id).get().addOnSuccessListener(
+                            new OnSuccessListener<DocumentSnapshot>() {
+                                @Override
+                                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                    if (documentSnapshot.exists()) {
+                                        User user = documentSnapshot.toObject(User.class);
+                                        userList.add(user);
+                                        userListAdapter.notifyDataSetChanged();
+                                    } else {
+                                        System.out.println("Document does not exist");
+                                    }
+                                }
+                            }
+                    );
+                }
+            }
+
         }
     }
 
-    private void showSummaryDialog() {
+    private void showSummaryDialog(String siteId) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         LayoutInflater inflater = getLayoutInflater();
@@ -66,6 +111,19 @@ public class SiteDetailsForOwnerActivity extends AppCompatActivity {
         EditText keywordEditText = dialogView.findViewById(R.id.keywordEditText);
         MaterialButton cancelFilter = dialogView.findViewById(R.id.cancelFilter);
         MaterialButton submitFilter = dialogView.findViewById(R.id.submitFilter);
+
+        DocumentReference siteRefONE = db.collection("sites").document(siteId);
+        siteRefONE.get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+
+                if (documentSnapshot.contains("summary")) {
+                    String summary = documentSnapshot.getString("summary");
+                    keywordEditText.setText(summary);
+                }
+            }
+        }).addOnFailureListener(e -> {
+            e.printStackTrace();
+        });
 
         builder.setView(dialogView);
 
@@ -79,9 +137,9 @@ public class SiteDetailsForOwnerActivity extends AppCompatActivity {
 
         submitFilter.setOnClickListener(v -> {
             String keyword = keywordEditText.getText().toString();
-
+            DocumentReference siteRef = FirebaseFirestore.getInstance().collection("sites").document(siteId);
+            siteRef.update("summary", keyword);
             alertDialog.dismiss();
         });
-
     }
 }

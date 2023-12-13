@@ -11,6 +11,7 @@ public class Site implements Serializable {
     private String latlng;
     private String name;
     private String time;
+    private String summary;
     private String ownerId;
     private List<String> participants;
     public Site() {
@@ -66,6 +67,14 @@ public class Site implements Serializable {
 
     public void setLatlng(String latlng) {
         this.latlng = latlng;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
     }
 
     public String getName() {

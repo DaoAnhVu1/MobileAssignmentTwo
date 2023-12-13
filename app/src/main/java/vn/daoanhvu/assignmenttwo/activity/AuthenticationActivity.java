@@ -1,6 +1,7 @@
 package vn.daoanhvu.assignmenttwo.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -49,9 +50,16 @@ public class AuthenticationActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         if (currentUser != null) {
-            Intent intent = new Intent(AuthenticationActivity.this, HomeActivity.class);
-            startActivity(intent);
-            finish();
+            boolean isAdmin = getSharedPreferences("user", MODE_PRIVATE).getBoolean("isAdmin", false);
+            if (isAdmin) {
+                Intent intent = new Intent(AuthenticationActivity.this, AdminActivity.class);
+                startActivity(intent);
+                finish();
+            } else {
+                Intent intent = new Intent(AuthenticationActivity.this, HomeActivity.class);
+                startActivity(intent);
+                finish();
+            }
         }
 
         MaterialButton googleSignInButton = findViewById(R.id.googleSignIn);
@@ -148,6 +156,10 @@ public class AuthenticationActivity extends AppCompatActivity {
 
         // Check for null before comparing
         if (roleObj != null && roleObj.equals("admin")) {
+            SharedPreferences preferences = getSharedPreferences("user", MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("isAdmin", true);
+            editor.apply();
             Intent intent = new Intent(AuthenticationActivity.this, AdminActivity.class);
             startActivity(intent);
             finish();

@@ -21,10 +21,18 @@ public class SiteCenterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.site_center_activity);
         ShapeableImageView profileImage = findViewById(R.id.profileImage);
+        profileImage.setOnClickListener(view -> {
+            Intent intent = new Intent(SiteCenterActivity.this, ProfileActivity.class);
+            startActivity(intent);
+        });
         RelativeLayout yourSite = findViewById(R.id.yourSite);
         RelativeLayout joinedSite = findViewById(R.id.joinedSite);
         yourSite.setOnClickListener(v -> {
             Intent intent = new Intent(SiteCenterActivity.this, CreatedSiteActivity.class);
+            startActivity(intent);
+        });
+        joinedSite.setOnClickListener(v-> {
+            Intent intent = new Intent(SiteCenterActivity.this, JoinedSiteActivity.class);
             startActivity(intent);
         });
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();

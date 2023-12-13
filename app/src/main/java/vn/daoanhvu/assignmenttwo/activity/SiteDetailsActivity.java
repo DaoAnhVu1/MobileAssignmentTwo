@@ -54,11 +54,17 @@ public class SiteDetailsActivity extends AppCompatActivity {
 
             TextView siteAddressTextView = findViewById(R.id.siteAddress);
             siteAddressTextView.setText("Address: " + site.getAddress());
-
+            Intent intent = getIntent();
+            boolean joined = intent.getBooleanExtra("joined", false);
             MaterialButton joinButton = findViewById(R.id.joinButton);
-            joinButton.setOnClickListener(v -> {
-                joinSite(site.getId(), FirebaseAuth.getInstance().getCurrentUser().getUid());
-            });
+            if (!joined) {
+                joinButton.setOnClickListener(v -> {
+                    joinSite(site.getId(), FirebaseAuth.getInstance().getCurrentUser().getUid());
+                });
+            } else  {
+                    joinButton.setText("View summary");
+            }
+
         }
     }
 
