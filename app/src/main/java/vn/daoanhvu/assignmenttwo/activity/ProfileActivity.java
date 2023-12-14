@@ -11,6 +11,8 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
 
 import vn.daoanhvu.assignmenttwo.R;
@@ -45,11 +47,24 @@ public class ProfileActivity extends AppCompatActivity {
             editor.apply();
             Intent intent = new Intent(ProfileActivity.this, AuthenticationActivity.class);
             startActivity(intent);
+            deleteFCMToken();
             finish();
         });
 
         backButton.setOnClickListener(view -> {
             onBackPressed();
         });
+    }
+
+    private void deleteFCMToken() {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("user").document(userId)
+                    .update("fcmToken", null)  ;
+        }
+
+        FirebaseMessaging.getInstance().deleteToken();
     }
 }

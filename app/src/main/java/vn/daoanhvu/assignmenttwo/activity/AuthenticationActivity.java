@@ -23,6 +23,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -102,6 +103,7 @@ public class AuthenticationActivity extends AppCompatActivity {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
+                        retrieveAndStoreFCMToken();
                         FirebaseFirestore db = FirebaseFirestore.getInstance();
                         String userId = mAuth.getCurrentUser().getUid();
                         db.collection("user").document(userId).get().addOnCompleteListener(documentTask -> {
@@ -170,11 +172,37 @@ public class AuthenticationActivity extends AppCompatActivity {
         }
     }
 
+    private void retrieveAndStoreFCMToken() {
+        String userId = mAuth.getCurrentUser().getUid();
+
+        // Retrieve FCM token
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        String fcmToken = task.getResult();
+
+                        // Store FCM token in the user's document in Firestore
+                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+                        db.collection("user").document(userId)
+                                .update("fcmToken", fcmToken)
+                                .addOnSuccessListener(aVoid -> {
+                                    Log.d("VUI", "FCM Token added to user document with ID: " + userId);
+                                })
+                                .addOnFailureListener(e -> {
+                                    Log.w("VUI", "Error adding FCM Token to user document", e);
+                                });
+                    } else {
+                        Log.w("VUI", "Error retrieving FCM token", task.getException());
+                    }
+                });
+    }
+
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
 
         mAuth.signInWithCredential(GoogleAuthProvider.getCredential(acct.getIdToken(), null))
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
+                        retrieveAndStoreFCMToken();
                         FirebaseFirestore db = FirebaseFirestore.getInstance();
                         String userId = mAuth.getCurrentUser().getUid();
                         String userName = mAuth.getCurrentUser().getDisplayName();

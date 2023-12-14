@@ -3,9 +3,13 @@ package vn.daoanhvu.assignmenttwo.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
@@ -19,7 +23,7 @@ import vn.daoanhvu.assignmenttwo.R;
 import vn.daoanhvu.assignmenttwo.model.Site;
 
 public class SiteDetailsActivity extends AppCompatActivity {
-
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,9 +67,44 @@ public class SiteDetailsActivity extends AppCompatActivity {
                 });
             } else  {
                     joinButton.setText("View summary");
+                    joinButton.setOnClickListener(v-> {
+                        showSummaryDialog(site.getId());
+                    });
             }
 
         }
+    }
+
+    private void showSummaryDialog(String siteId) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        LayoutInflater inflater = getLayoutInflater();
+
+        View dialogView = inflater.inflate(R.layout.summarize_dialog_for_user, null);
+
+      TextView keywordEditText = dialogView.findViewById(R.id.keywordEditText);
+
+        DocumentReference siteRefONE = db.collection("sites").document(siteId);
+        siteRefONE.get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                if (documentSnapshot.contains("summary")) {
+                    String summary = documentSnapshot.getString("summary");
+                    if (summary == null || summary.isEmpty()) {
+                        keywordEditText.setText("The owner of this site have not updated this");
+                    } else {
+                        keywordEditText.setText(summary);
+                    }
+                }
+            }
+        }).addOnFailureListener(e -> {
+            e.printStackTrace();
+        });
+
+        builder.setView(dialogView);
+
+        AlertDialog alertDialog = builder.create();
+
+        alertDialog.show();
     }
 
     private void joinSite(String siteId, String userId) {
