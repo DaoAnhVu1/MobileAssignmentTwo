@@ -24,13 +24,64 @@
             app:shapeAppearanceOverlay="@style/Rounded"
             android:layout_centerHorizontal="true"
             />
+        <LinearLayout
+            android:layout_marginTop="30dp"
+            android:id="@+id/statsSection"
+            android:layout_below="@id/profileImage"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            >
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/siteCreated"
+                    android:textSize="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:layout_marginRight="20dp"
+                    android:text="0"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:textAlignment="center"
+                    android:text="Sites created"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/siteJoined"
+                    android:layout_width="match_parent"
+                    android:textAlignment="center"
+                    android:textSize="20dp"
+                    android:layout_height="wrap_content"
+                    android:text="0"/>
+                <TextView
+                    android:textAlignment="center"
+                    android:layout_width="match_parent"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:layout_height="wrap_content"
+                    android:text="Sites joined"/>
+            </LinearLayout>
+        </LinearLayout>
         <com.google.android.material.button.MaterialButton
             android:id="@+id/logout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/profileImage"
+            android:layout_below="@id/statsSection"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="30dp"
             android:backgroundTint="@color/black"
             android:text="Logout"
             app:cornerRadius="10dp" />

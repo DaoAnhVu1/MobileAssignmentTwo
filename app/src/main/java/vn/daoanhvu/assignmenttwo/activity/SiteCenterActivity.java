@@ -49,8 +49,7 @@ public class SiteCenterActivity extends AppCompatActivity {
         }
         TextView logo = findViewById(R.id.logo);
         logo.setOnClickListener(v -> {
-            Intent intent = new Intent(SiteCenterActivity.this, HomeActivity.class);
-            startActivity(intent);
+            onBackPressed();
         });
 
     }

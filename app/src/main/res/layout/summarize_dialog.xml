@@ -37,7 +37,7 @@
         android:layout_marginRight="10dp"
         android:layout_toLeftOf="@id/submitFilter"
         android:backgroundTint="@color/white"
-        android:text="Clear"
+        android:text="Cancel"
         android:textColor="@color/black"
         app:cornerRadius="10dp" />
 

@@ -20,9 +20,9 @@ public class AdminActivity extends AppCompatActivity {
         MaterialButton logoutButton = findViewById(R.id.logout);
         logoutButton.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
-            SharedPreferences preferences = getSharedPreferences("user_preferences", MODE_PRIVATE);
+            SharedPreferences preferences = getSharedPreferences("user", MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
-            editor.clear(); // Clear all data
+            editor.clear();
             editor.apply();
             Intent intent = new Intent(AdminActivity.this, AuthenticationActivity.class);
             startActivity(intent);

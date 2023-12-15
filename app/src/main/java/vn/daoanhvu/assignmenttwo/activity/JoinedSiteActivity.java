@@ -75,9 +75,8 @@ public class JoinedSiteActivity extends AppCompatActivity {
                 Site clickedSite = siteList.get(position);
 
                 // Create an intent to navigate to SiteDetailsActivity
-                Intent intent = new Intent(JoinedSiteActivity.this, SiteDetailsActivity.class);
+                Intent intent = new Intent(JoinedSiteActivity.this, SiteDetailsForParticipantActivity.class);
                 intent.putExtra("site", clickedSite);
-                intent.putExtra("joined", true);
                 startActivity(intent);
             }
         });

@@ -1,24 +1,27 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_height="240dp">
-
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="240dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/image"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:src="@drawable/clean"
-        app:shapeAppearanceOverlay="@style/RoundedImageViewStyle"
-        android:scaleType="centerCrop"/>
+        android:id="@+id/image"
+        android:layout_height="210dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/community"
+        app:shapeAppearance="@style/RoundedImageViewStyle" />
 
     <TextView
         android:id="@+id/name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:text="Your Text Here"
-        android:textSize="16sp"
-        android:textColor="@android:color/black"
-        android:padding="8dp"/>
-</LinearLayout>
+        android:layout_height="20dp"
+        android:layout_marginBottom="15dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/black_background"
+        android:gravity="center"
+        android:text="Find cleaning site"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+</RelativeLayout>

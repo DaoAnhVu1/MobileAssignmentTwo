@@ -17,6 +17,12 @@
         android:theme="@style/Theme.AssignmentTwo"
         tools:targetApi="31">
         <activity
+            android:name=".activity.SiteDetailsForParticipantActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.SiteRouteOnMapActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.SiteDetailsForOwnerActivity"
             android:exported="false" />
         <activity

@@ -52,15 +52,15 @@ public class AuthenticationActivity extends AppCompatActivity {
 
         if (currentUser != null) {
             boolean isAdmin = getSharedPreferences("user", MODE_PRIVATE).getBoolean("isAdmin", false);
+            System.out.println(isAdmin);
+            Intent intent;
             if (isAdmin) {
-                Intent intent = new Intent(AuthenticationActivity.this, AdminActivity.class);
-                startActivity(intent);
-                finish();
+                intent = new Intent(AuthenticationActivity.this, AdminActivity.class);
             } else {
-                Intent intent = new Intent(AuthenticationActivity.this, HomeActivity.class);
-                startActivity(intent);
-                finish();
+                intent = new Intent(AuthenticationActivity.this, HomeActivity.class);
             }
+            startActivity(intent);
+            finish();
         }
 
         MaterialButton googleSignInButton = findViewById(R.id.googleSignIn);
