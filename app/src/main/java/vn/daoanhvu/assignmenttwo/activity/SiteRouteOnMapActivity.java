@@ -113,7 +113,7 @@ public class SiteRouteOnMapActivity extends FragmentActivity implements OnMapRea
                     .withListener(this)
                     .alternativeRoutes(true)
                     .waypoints(Start, End)
-                    .key("AIzaSyBJOKhGBRS9jIjnfUVecVzDCBUmMDnL7KI")
+                    .key("AIzaSyBfurDK3cgY2W9w0UYiKlCmco9Zjg0yr64")
                     .build();
             routing.execute();
         }
