@@ -1,5 +1,10 @@
 package vn.daoanhvu.assignmenttwo.model;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -13,6 +18,7 @@ public class Site implements Serializable {
     private String time;
     private String summary;
     private String ownerId;
+    private String ownerName;
     private List<String> participants;
     public Site() {
     }
@@ -96,9 +102,17 @@ public class Site implements Serializable {
     public String getOwnerId() {
         return ownerId;
     }
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    private void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
+    }
 
     public void setOwnerId(String ownerId) {
         this.ownerId = ownerId;
+        fetchOwnerName();
     }
     public List<String> getParticipants() {
         return participants;
@@ -134,5 +148,24 @@ public class Site implements Serializable {
             }
         }
         return null;
+    }
+
+    private void fetchOwnerName() {
+        if (ownerId != null && !ownerId.isEmpty()) {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("user").document(ownerId).get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    String ownerName = document.getString("username");
+                                    setOwnerName(ownerName);
+                                }
+                            }
+                        }
+                    });
+        }
     }
 }

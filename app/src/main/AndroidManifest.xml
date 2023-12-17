@@ -17,6 +17,15 @@
         android:theme="@style/Theme.AssignmentTwo"
         tools:targetApi="31">
         <activity
+            android:name=".activity.AdminSiteDetails"
+            android:exported="false" />
+        <activity
+            android:name=".activity.AdminUsersActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.AdminSitesActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.SiteDetailsForParticipantActivity"
             android:exported="false" />
         <activity

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.widget.RelativeLayout;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,6 +28,19 @@ public class AdminActivity extends AppCompatActivity {
             Intent intent = new Intent(AdminActivity.this, AuthenticationActivity.class);
             startActivity(intent);
             finish();
+        });
+
+        RelativeLayout site = findViewById(R.id.sites);
+        RelativeLayout user = findViewById(R.id.user);
+
+        site.setOnClickListener(v-> {
+            Intent intent = new Intent(AdminActivity.this, AdminSitesActivity.class);
+            startActivity(intent);
+        });
+
+        user.setOnClickListener(v-> {
+            Intent intent = new Intent(AdminActivity.this, AdminUsersActivity.class);
+            startActivity(intent);
         });
     }
 }

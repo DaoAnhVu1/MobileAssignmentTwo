@@ -40,16 +40,15 @@ public class SiteCenterActivity extends AppCompatActivity {
             String photoUrl = currentUser.getPhotoUrl() != null ? currentUser.getPhotoUrl().toString() : null;
 
             if (photoUrl != null) {
-                // Load the user's profile image using Picasso
                 Picasso.get().load(photoUrl).into(profileImage);
             } else {
-                // Set a default image from your drawable resources
                 profileImage.setImageResource(R.drawable.profile_image);
             }
         }
         TextView logo = findViewById(R.id.logo);
         logo.setOnClickListener(v -> {
-            onBackPressed();
+            Intent intent = new Intent(SiteCenterActivity.this, HomeActivity.class);
+            startActivity(intent);
         });
 
     }

@@ -1,0 +1,120 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background">
+
+    <ImageView
+        android:id="@+id/backButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/back" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="15dp">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:paddingHorizontal="15dp"
+            android:text="Site Details"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="32dp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_below="@id/title"
+            android:layout_marginTop="8dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/clean"
+            app:shapeAppearanceOverlay="@style/RoundedImageViewStyle" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/updateButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/image"
+            android:layout_marginTop="8dp"
+
+            android:backgroundTint="@color/black"
+            android:text="Summarize"
+            android:textSize="20dp"
+            app:cornerRadius="10dp" />
+
+        <TextView
+            android:id="@+id/siteName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/updateButton"
+            android:layout_marginTop="8dp"
+            android:text="Name: "
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/siteDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/siteName"
+            android:layout_marginTop="8dp"
+            android:text="Date: "
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/siteTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/siteDate"
+            android:layout_marginTop="8dp"
+            android:text="Time: "
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/siteAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/siteTime"
+            android:layout_marginTop="8dp"
+            android:text="Address: "
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/owner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/siteAddress"
+            android:layout_marginTop="8dp"
+            android:text="Owner: "
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/participants"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/owner"
+            android:layout_marginTop="8dp"
+            android:text="Participants: "
+            android:textSize="20dp" />
+
+
+        <ListView
+            android:layout_marginTop="5dp"
+            android:id="@+id/listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/participants"
+            android:layout_marginBottom="20dp"
+            android:dividerHeight="4dp"
+            android:divider="@android:color/transparent" />
+    </RelativeLayout>
+
+</RelativeLayout>

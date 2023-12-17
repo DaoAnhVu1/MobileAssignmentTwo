@@ -108,6 +108,20 @@ public class SiteRouteOnMapActivity extends FragmentActivity implements OnMapRea
         if (Start == null || End == null) {
             Toast.makeText(SiteRouteOnMapActivity.this, "Unable to get location", Toast.LENGTH_LONG).show();
         } else {
+
+            BitmapDescriptor customMarker = BitmapDescriptorFactory.fromResource(R.drawable.profile_image);
+
+            mMap.addMarker(new MarkerOptions().position(Start)
+                    .title("Current Location")
+                    .icon(customMarker));
+
+            BitmapDescriptor customMarker2 = BitmapDescriptorFactory.fromResource(R.drawable.leafimage
+            );
+
+            mMap.addMarker(new MarkerOptions().position(End)
+                    .title("Destination")
+                    .icon(customMarker2));
+
             Routing routing = new Routing.Builder()
                     .travelMode(AbstractRouting.TravelMode.DRIVING)
                     .withListener(this)
@@ -133,31 +147,22 @@ public class SiteRouteOnMapActivity extends FragmentActivity implements OnMapRea
     @Override
     public void onRoutingSuccess(ArrayList<Route> routeList, int shortestRouteIndex) {
         if (routeList.size() > 0) {
-            // Get the selected route from the list
             Route selectedRoute = routeList.get(shortestRouteIndex);
-
-            // Draw the polyline on the map using the selected route
             drawRouteOnMap(selectedRoute);
-
-            // Display a toast message
             Toast.makeText(SiteRouteOnMapActivity.this, "Route drawn successfully", Toast.LENGTH_LONG).show();
         }
     }
 
     private void drawRouteOnMap(Route route) {
         if (mMap != null) {
-            mMap.clear();
 
             PolylineOptions polylineOptions = new PolylineOptions()
                     .addAll(route.getPoints())
                     .width(10)
                     .color(Color.BLUE);
 
-            // Add the polyline to the map
             mMap.addPolyline(polylineOptions);
 
-
-            // Move the camera to the bounds of the route
             LatLngBounds.Builder builder = new LatLngBounds.Builder();
             for (LatLng point : route.getPoints()) {
                 builder.include(point);

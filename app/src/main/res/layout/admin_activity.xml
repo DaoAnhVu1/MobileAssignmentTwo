@@ -41,7 +41,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/joined_site"
+                android:src="@drawable/manage_site"
                 app:shapeAppearance="@style/RoundedImageViewStyle" />
 
             <TextView
@@ -70,7 +70,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/joined_site"
+                android:src="@drawable/mange_user"
                 app:shapeAppearance="@style/RoundedImageViewStyle" />
 
             <TextView
@@ -86,14 +86,19 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/logout"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/main"
-        android:layout_marginBottom="20dp"
-        android:backgroundTint="@color/black"
-        android:text="Logout"
-        android:textSize="20dp"
-        app:cornerRadius="10dp" />
+        android:paddingHorizontal="20dp"
+        android:layout_height="wrap_content">
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/main"
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="@color/black"
+            android:text="Logout"
+            android:textSize="20dp"
+            app:cornerRadius="10dp" />
+    </LinearLayout>
 </LinearLayout>
