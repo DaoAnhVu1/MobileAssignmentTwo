@@ -71,10 +71,8 @@ public class JoinedSiteActivity extends AppCompatActivity {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Retrieve the clicked site
                 Site clickedSite = siteList.get(position);
 
-                // Create an intent to navigate to SiteDetailsActivity
                 Intent intent = new Intent(JoinedSiteActivity.this, SiteDetailsForParticipantActivity.class);
                 intent.putExtra("site", clickedSite);
                 startActivity(intent);

@@ -53,7 +53,6 @@ public class SiteRouteOnMapActivity extends FragmentActivity implements OnMapRea
     }
 
     private void moveCameraToCurrentLocation() {
-        // Get the last known location
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
@@ -168,7 +167,7 @@ public class SiteRouteOnMapActivity extends FragmentActivity implements OnMapRea
                 builder.include(point);
             }
             LatLngBounds bounds = builder.build();
-            mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 50)); // 50 padding
+            mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 75));
         }
     }
 

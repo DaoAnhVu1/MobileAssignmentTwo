@@ -30,17 +30,13 @@ public class SiteDetailsActivity extends AppCompatActivity {
             onBackPressed();
         });
 
-        // Retrieve data from the intent
         Site site = (Site) getIntent().getSerializableExtra("site");
 
-        // Check if the data is not null
         if (site != null) {
-            // Set the data to your UI elements
             TextView titleTextView = findViewById(R.id.title);
             titleTextView.setText("Site Details");
 
             ImageView imageView = findViewById(R.id.image);
-            // Use Picasso to load the image
             Picasso.get().load(site.getImageUrl()).into(imageView);
 
             TextView siteNameTextView = findViewById(R.id.siteName);
@@ -69,11 +65,9 @@ public class SiteDetailsActivity extends AppCompatActivity {
         userRef.update("joinedSites", FieldValue.arrayUnion(siteId))
                 .addOnSuccessListener(aVoid -> {
                     Log.d("joinSite", "User joined site successfully");
-                    // Handle success
                 })
                 .addOnFailureListener(e -> {
                     Log.e("joinSite", "Error joining site for user: " + e.getMessage());
-                    // Handle failure
                 });
 
         DocumentReference siteRef = FirebaseFirestore.getInstance().collection("sites").document(siteId);
@@ -83,7 +77,6 @@ public class SiteDetailsActivity extends AppCompatActivity {
                 })
                 .addOnFailureListener(e -> {
                     Log.e("joinSite", "Error adding user as participant to site: " + e.getMessage());
-                    // Handle failure
                 });
 
         Intent intent = new Intent(SiteDetailsActivity.this, SiteCenterActivity.class);

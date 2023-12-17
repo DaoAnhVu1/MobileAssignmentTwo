@@ -54,7 +54,6 @@ public class RegisterActivity extends AppCompatActivity {
         textViewAlready.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Redirect to the login activity
                 startActivity(new Intent(RegisterActivity.this, AuthenticationActivity.class));
             }
         });
@@ -80,7 +79,6 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        // Create a new user with email and password
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -106,7 +104,6 @@ public class RegisterActivity extends AppCompatActivity {
                             startActivity(intent);
                             Toast.makeText(RegisterActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
                         } else {
-                            // Registration failed
                             Toast.makeText(RegisterActivity.this, "Registration failed: " + task.getException(), Toast.LENGTH_SHORT).show();
                         }
                     }

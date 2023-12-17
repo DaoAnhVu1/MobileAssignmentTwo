@@ -30,17 +30,13 @@ public class SiteDetailsForParticipantActivity extends AppCompatActivity {
             onBackPressed();
         });
 
-        // Retrieve data from the intent
         Site site = (Site) getIntent().getSerializableExtra("site");
 
-        // Check if the data is not null
         if (site != null) {
-            // Set the data to your UI elements
             TextView titleTextView = findViewById(R.id.title);
             titleTextView.setText("Site Details");
 
             ImageView imageView = findViewById(R.id.image);
-            // Use Picasso to load the image
             Picasso.get().load(site.getImageUrl()).into(imageView);
 
             TextView siteNameTextView = findViewById(R.id.siteName);

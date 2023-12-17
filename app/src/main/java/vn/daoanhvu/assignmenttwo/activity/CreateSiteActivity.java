@@ -66,10 +66,8 @@ public class CreateSiteActivity extends AppCompatActivity {
         ImageView backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(view -> onBackPressed());
 
-        // Set onClickListener for dateEdit
         dateEdit.setOnClickListener(v -> showDatePicker());
 
-        // Set onClickListener for timeEdit
         timeEdit.setOnClickListener(v -> showTimePicker());
 
         addressSection.setOnClickListener(v -> {
@@ -95,9 +93,9 @@ public class CreateSiteActivity extends AppCompatActivity {
         String time = timeEditText.getText().toString().trim();
         String address = addressText.getText().toString().trim();
 
-        if (name.isEmpty()  || date.isEmpty() || time.isEmpty() || address.isEmpty()) {
+        if (name.isEmpty() || date.isEmpty() || time.isEmpty() || address.isEmpty()) {
             Toast.makeText(this, "Please fill in all required fields", Toast.LENGTH_SHORT).show();
-            return; // Exit the method if any field is empty
+            return;
         }
 
         if (storedLatlng == null || storedLatlng.isEmpty()) {
@@ -114,16 +112,14 @@ public class CreateSiteActivity extends AppCompatActivity {
         siteData.put("imageUrl", uploadedImageUrl);
         siteData.put("latlng", storedLatlng);
 
-        // Add the siteData to Firebase (replace "sites" with your desired collection name)
         FirebaseFirestore.getInstance().collection("sites")
                 .add(siteData)
                 .addOnSuccessListener(documentReference -> {
-                    // Document was successfully added
                     Toast.makeText(this, "Site created successfully", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(CreateSiteActivity.this, CreatedSiteActivity.class));
                     finish();
                 })
                 .addOnFailureListener(e -> {
-                    // Handle errors
                     Toast.makeText(this, "Error creating site", Toast.LENGTH_SHORT).show();
                 });
     }
@@ -137,7 +133,6 @@ public class CreateSiteActivity extends AppCompatActivity {
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 this,
                 (view, selectedYear, selectedMonth, selectedDay) -> {
-                    // Update dateEdit with the selected date
                     String selectedDate = String.format(Locale.getDefault(), "%02d/%02d/%02d", selectedDay, selectedMonth + 1, selectedYear % 100);
                     dateEditText.setText(selectedDate);
                 },
@@ -155,7 +150,6 @@ public class CreateSiteActivity extends AppCompatActivity {
         TimePickerDialog timePickerDialog = new TimePickerDialog(
                 this,
                 (view, selectedHour, selectedMinute) -> {
-                    // Update timeEdit with the selected time
                     String selectedTime = String.format("%02d:%02d", selectedHour, selectedMinute);
                     timeEditText.setText(selectedTime);
                 },
@@ -169,7 +163,6 @@ public class CreateSiteActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == LOCATION_PICKER_REQUEST_CODE && resultCode == RESULT_OK) {
-            // Handle the result from LocationPickerActivity
             if (data != null) {
                 String selectedAddress = data.getStringExtra("selectedAddress");
                 String selectedLat = data.getStringExtra("selectedLat");
@@ -178,9 +171,7 @@ public class CreateSiteActivity extends AppCompatActivity {
                 addressText.setText(selectedAddress);
             }
         } else if (requestCode == IMAGE_PICKER_REQUEST_CODE && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            // Handle the result from image picker
             selectedImageUri = data.getData();
-            // Upload the image to Firebase Storage and update the imageView on successful upload
             uploadImageToFirebase();
         }
     }
@@ -199,15 +190,14 @@ public class CreateSiteActivity extends AppCompatActivity {
             imageRef.putFile(selectedImageUri)
                     .addOnSuccessListener(taskSnapshot -> {
                         imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                            // Use Picasso to load the image into the ImageView
+
                             Picasso.get().load(uri.toString()).into(imageView);
 
-                            // Save the downloaded image URL
+
                             uploadedImageUrl = uri.toString();
                         });
                     })
                     .addOnFailureListener(e -> {
-                        // Handle unsuccessful image upload
                         Toast.makeText(this, "Image upload failed", Toast.LENGTH_SHORT).show();
                     });
         }

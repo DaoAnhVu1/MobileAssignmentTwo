@@ -156,7 +156,6 @@ public class AuthenticationActivity extends AppCompatActivity {
     private void checkUserRoleAndRedirect(DocumentSnapshot document) {
         Object roleObj = document.get("role");
 
-        // Check for null before comparing
         if (roleObj != null && roleObj.equals("admin")) {
             SharedPreferences preferences = getSharedPreferences("user", MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
@@ -174,14 +173,10 @@ public class AuthenticationActivity extends AppCompatActivity {
 
     private void retrieveAndStoreFCMToken() {
         String userId = mAuth.getCurrentUser().getUid();
-
-        // Retrieve FCM token
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null) {
                         String fcmToken = task.getResult();
-
-                        // Store FCM token in the user's document in Firestore
                         FirebaseFirestore db = FirebaseFirestore.getInstance();
                         db.collection("user").document(userId)
                                 .update("fcmToken", fcmToken)
@@ -228,7 +223,6 @@ public class AuthenticationActivity extends AppCompatActivity {
                                     checkUserRoleAndRedirect(document);
                                 }
                             } else {
-                                // Handle the error
                                 Log.w("BUON", "Error getting document", documentTask.getException());
                             }
                         });

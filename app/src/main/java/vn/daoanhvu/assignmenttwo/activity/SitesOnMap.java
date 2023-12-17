@@ -63,7 +63,6 @@ public class SitesOnMap extends FragmentActivity implements OnMapReadyCallback {
         searchLocationEditText = findViewById(R.id.locationEditText);
         locationSubmitButton = findViewById(R.id.locationSubmit);
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -103,12 +102,10 @@ public class SitesOnMap extends FragmentActivity implements OnMapReadyCallback {
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // If location permission is not granted, request it
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
                     1);
         } else {
-            // If permission is granted, move the camera to the current location
             moveCameraToCurrentLocation();
             fetchAndAddSiteMarkers();
         }
@@ -164,18 +161,15 @@ public class SitesOnMap extends FragmentActivity implements OnMapReadyCallback {
 
                             }
                         } else {
-                            // Handle the case where fetching data fails
                             Toast.makeText(SitesOnMap.this, "Failed to fetch sites", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
     }
     private void moveCameraToCurrentLocation() {
-        // Get the last known location
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-            // Display a toast message indicating that permission is not granted
             Toast.makeText(this, "Location permission not granted", Toast.LENGTH_SHORT).show();
 
         } else {
@@ -183,7 +177,6 @@ public class SitesOnMap extends FragmentActivity implements OnMapReadyCallback {
                 @Override
                 public void onSuccess(Location location) {
                     if (location != null) {
-                        // Move the camera to the current location with a zoom level of 16
                         LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
                         BitmapDescriptor customMarker = BitmapDescriptorFactory.fromResource(R.drawable.profile_image);
 
@@ -193,7 +186,6 @@ public class SitesOnMap extends FragmentActivity implements OnMapReadyCallback {
                         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 13));
 
                     } else {
-                        // Display a toast message indicating that the location is null
                         Toast.makeText(SitesOnMap.this, "Last known location is null", Toast.LENGTH_SHORT).show();
                     }
                 }

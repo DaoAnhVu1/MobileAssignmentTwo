@@ -49,7 +49,6 @@ public class LocationPickerActivity extends FragmentActivity implements OnMapRea
         binding = LocationPickerActivityBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -71,7 +70,7 @@ public class LocationPickerActivity extends FragmentActivity implements OnMapRea
                         Address address = addresses.get(0);
                         LatLng location = new LatLng(address.getLatitude(), address.getLongitude());
 
-                        mMap.clear(); // Clear existing markers
+                        mMap.clear();
                         mMap.addMarker(new MarkerOptions().position(location).title(locationName));
                         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
                     } else {
@@ -94,18 +93,15 @@ public class LocationPickerActivity extends FragmentActivity implements OnMapRea
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-            // If location permission is not granted, request it
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
                     1);
         } else {
-            // If permission is granted, move the camera to the current location
             moveCameraToCurrentLocation();
         }
 
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.setOnMapClickListener(latLng -> {
-            // Toast the LatLng when the map is clicked
             getAddressFromLatLng(latLng);
         });
     }
@@ -118,16 +114,14 @@ public class LocationPickerActivity extends FragmentActivity implements OnMapRea
 
             if (addresses != null && !addresses.isEmpty()) {
                 Address address = addresses.get(0);
-                String addressName = address.getAddressLine(0); // You can customize this based on your needs
+                String addressName = address.getAddressLine(0);
 
-                // Create an intent to send back the result
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("selectedAddress", addressName);
                 resultIntent.putExtra("selectedLat",  String.valueOf(latLng.latitude));
                 resultIntent.putExtra("selectedLng",  String.valueOf(latLng.longitude));
                 setResult(RESULT_OK, resultIntent);
 
-                // Finish the activity
                 finish();
             } else {
                 Toast.makeText(this, "Address not found", Toast.LENGTH_SHORT).show();
@@ -139,11 +133,9 @@ public class LocationPickerActivity extends FragmentActivity implements OnMapRea
     }
 
     private void moveCameraToCurrentLocation() {
-        // Get the last known location
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-            // Display a toast message indicating that permission is not granted
             Toast.makeText(this, "Location permission not granted", Toast.LENGTH_SHORT).show();
 
         } else {
@@ -151,13 +143,11 @@ public class LocationPickerActivity extends FragmentActivity implements OnMapRea
                 @Override
                 public void onSuccess(Location location) {
                     if (location != null) {
-                        // Move the camera to the current location with a zoom level of 16
                         LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
                         mMap.addMarker(new MarkerOptions().position(currentLocation).title("Current Location"));
                         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 13));
 
                     } else {
-                        // Display a toast message indicating that the location is null
                         Toast.makeText(LocationPickerActivity.this, "Last known location is null", Toast.LENGTH_SHORT).show();
                     }
                 }

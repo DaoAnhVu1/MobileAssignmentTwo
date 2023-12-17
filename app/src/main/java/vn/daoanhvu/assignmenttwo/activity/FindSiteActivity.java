@@ -67,14 +67,9 @@ public class FindSiteActivity extends AppCompatActivity {
         siteListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Retrieve the clicked site
                 Site clickedSite = siteList.get(position);
-
-                // Create an intent to navigate to SiteDetailsActivity
                 Intent intent = new Intent(FindSiteActivity.this, SiteDetailsActivity.class);
                 intent.putExtra("site", clickedSite);
-
-                // Start the intent
                 startActivity(intent);
             }
         });
@@ -162,7 +157,6 @@ public class FindSiteActivity extends AppCompatActivity {
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 this,
                 (view, selectedYear, selectedMonth, selectedDay) -> {
-                    // Update the provided dateEdit with the selected date
                     String selectedDate = String.format(Locale.getDefault(), "%02d/%02d/%02d", selectedDay, selectedMonth + 1, selectedYear % 100);
                     dateEdit.setText(selectedDate);
                 },
@@ -180,7 +174,7 @@ public class FindSiteActivity extends AppCompatActivity {
             return;
         }
 
-        siteList.clear(); // Clear the existing list before fetching filtered data
+        siteList.clear();
 
         db.collection("sites")
                 .whereNotEqualTo("ownerId", currentUser.getUid())
