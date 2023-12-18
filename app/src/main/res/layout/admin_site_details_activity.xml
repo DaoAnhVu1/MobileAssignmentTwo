@@ -47,7 +47,7 @@
             android:layout_marginTop="8dp"
 
             android:backgroundTint="@color/black"
-            android:text="Summarize"
+            android:text="View summary"
             android:textSize="20dp"
             app:cornerRadius="10dp" />
 
