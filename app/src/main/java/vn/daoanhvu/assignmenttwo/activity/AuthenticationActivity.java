@@ -1,7 +1,10 @@
 package vn.daoanhvu.assignmenttwo.activity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -9,7 +12,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -76,6 +81,18 @@ public class AuthenticationActivity extends AppCompatActivity {
 
         MaterialButton signInButton = findViewById(R.id.signIn);
         signInButton.setOnClickListener(view -> signInWithEmailPassword());
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "ALLOWED", Toast.LENGTH_SHORT).show();
+            } else  {
+                Toast.makeText(this, "DENIED", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private void signInWithGoogle() {

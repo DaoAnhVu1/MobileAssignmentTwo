@@ -15,6 +15,11 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 import vn.daoanhvu.assignmenttwo.R;
 import vn.daoanhvu.assignmenttwo.model.Site;
 
@@ -78,8 +83,59 @@ public class SiteDetailsActivity extends AppCompatActivity {
                 .addOnFailureListener(e -> {
                     Log.e("joinSite", "Error adding user as participant to site: " + e.getMessage());
                 });
-
+        siteRef.get().addOnCompleteListener(task-> {
+            if (task.isSuccessful()) {
+               String ownerId = (String) task.getResult().get("ownerId");
+               DocumentReference ownerRef = FirebaseFirestore.getInstance().collection("user").document(ownerId);
+               ownerRef.get().addOnCompleteListener(ownerTask-> {
+                   if (ownerTask.isSuccessful()) {
+                       String fcmToken = (String) ownerTask.getResult().get("fcmToken");
+                       sendNotification(fcmToken, "New participant", "There is a new participant join your site");
+                   }
+               });
+            }
+        });
         Intent intent = new Intent(SiteDetailsActivity.this, SiteCenterActivity.class);
         startActivity(intent);
+    }
+
+    private void sendNotification(String fcmToken, String title, String message) {
+        new Thread(() -> {
+            try {
+                String fcmEndpoint = "https://fcm.googleapis.com/fcm/send";
+
+                String serverKey = "AAAA2iyNkOw:APA91bH_h81tFopnGb-3huNR6c94mTblLpW4X8m9yv9Rl5SCdpeWA4_JMxI1qanTrB4A_eB3IJ_LuIOJo42BP_mT9pQEjeDKdXfOuuSDBQE_vl_G_3gUEHxUPiWUrhCOpQ2T26fGEiWW"; // Replace with your actual server key
+
+                String jsonPayload = String.format(
+                        "{\"to\":\"%s\",\"notification\":{\"title\":\"%s\",\"body\":\"%s\"}}",
+                        fcmToken, title, message);
+
+                URL url = new URL(fcmEndpoint);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setRequestProperty("Content-Type", "application/json");
+                httpURLConnection.setRequestProperty("Authorization", "key=" + serverKey);
+                httpURLConnection.setDoOutput(true);
+
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream);
+                outputStreamWriter.write(jsonPayload);
+                outputStreamWriter.flush();
+                outputStreamWriter.close();
+                outputStream.close();
+
+                int responseCode = httpURLConnection.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    Log.d("FCM_NOTIFICATION", "Notification sent successfully!");
+                } else {
+                    // Log an error message for non-OK response codes
+                    Log.e("FCM_NOTIFICATION", "Failed to send notification. Response Code: " + responseCode);
+                }
+                httpURLConnection.disconnect();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 }

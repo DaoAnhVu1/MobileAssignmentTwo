@@ -1,14 +1,17 @@
 package vn.daoanhvu.assignmenttwo.activity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
 
 import vn.daoanhvu.assignmenttwo.R;
@@ -19,6 +22,12 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task-> {
+            if (task.isSuccessful()) {
+                System.out.println(task.getResult());
+            }
+        });
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
         RelativeLayout findSite = findViewById(R.id.findSite);
         RelativeLayout siteCenter = findViewById(R.id.siteCenter);
         RelativeLayout aboutUs = findViewById(R.id.aboutUs);
