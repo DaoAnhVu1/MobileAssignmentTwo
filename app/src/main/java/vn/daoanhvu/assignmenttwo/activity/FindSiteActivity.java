@@ -122,7 +122,6 @@ public class FindSiteActivity extends AppCompatActivity {
         EditText keywordEditText = dialogView.findViewById(R.id.keywordEditText);
 
         TextView dateEdit = dialogView.findViewById(R.id.dateText);
-        TextView timeEdit = dialogView.findViewById(R.id.timeText);
 
         dateEdit.setOnClickListener(v -> showDatePicker(dateEdit));
 

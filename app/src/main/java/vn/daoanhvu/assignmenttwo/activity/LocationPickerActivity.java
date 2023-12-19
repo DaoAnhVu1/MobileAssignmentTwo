@@ -17,6 +17,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -144,7 +146,11 @@ public class LocationPickerActivity extends FragmentActivity implements OnMapRea
                 public void onSuccess(Location location) {
                     if (location != null) {
                         LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                        mMap.addMarker(new MarkerOptions().position(currentLocation).title("Current Location"));
+                        BitmapDescriptor customMarker = BitmapDescriptorFactory.fromResource(R.drawable.profile_image);
+
+                        mMap.addMarker(new MarkerOptions().position(currentLocation)
+                                .title("Current Location")
+                                .icon(customMarker));
                         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 13));
 
                     } else {

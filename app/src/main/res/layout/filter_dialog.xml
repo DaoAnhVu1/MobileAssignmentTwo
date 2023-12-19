@@ -61,35 +61,6 @@
                 android:paddingBottom="16dp"
                 android:textSize="16dp" />
         </LinearLayout>
-
-        <!-- Time Section -->
-        <LinearLayout
-            android:id="@+id/timeSection"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="8dp"
-            android:layout_weight="50"
-            android:clickable="true"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/timeLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="After time:" />
-
-            <TextView
-                android:id="@+id/timeText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:background="?android:attr/editTextBackground"
-                android:drawableEnd="@drawable/clock"
-                android:drawablePadding="8dp"
-                android:hint="HH:MM"
-                android:paddingBottom="16dp"
-                android:textSize="16dp" />
-        </LinearLayout>
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
