@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingHorizontal="20dp"
+    android:orientation="vertical"
+    android:background="@drawable/background">
+    <ImageView
+        android:id="@+id/backButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/back" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:src="@drawable/leafimage"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="About NardoGreen"
+            android:textAlignment="center"
+            android:layout_below="@id/image"
+            android:textSize="32dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginTop="20dp"/>
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Join NardoGreen, your eco-friendly companion on a mission to protect and preserve our environment. With NardoGreen, you can create and discover cleaning sites in your community, where passionate individuals come together to make a positive impact on the planet. Whether it's picking up litter, planting trees, or organizing recycling initiatives, NardoGreen empowers you to lead or join environmental projects that contribute to a cleaner, greener world. Let's unite, take action, and inspire positive change for future generations!"
+            android:layout_below="@id/title"
+            android:layout_marginTop="20dp"
+            android:textSize="16dp"
+            android:textColor="@color/black"/>
+    </RelativeLayout>
+</RelativeLayout>
